@@ -12,3 +12,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+html {
+  font-size: 14px;
+}
+
+.todo {
+  border: 1px solid turquoise;
+  margin: 1.5em;
+  padding: 1em;
+  text-align: left;
+}
