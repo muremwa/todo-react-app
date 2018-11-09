@@ -5,39 +5,10 @@ import dispatcher from "../dispatcher";
 class TodoStore extends EventEmitter {
     constructor () {
         super();
-        this.todos =  [
-            {
-                id: 233,
-                title: "hre",
-                complete: false,
-                createdDate: "12/07/19",
-                doneDate: "12/11/20"
-            },
-            {
-                id: 232333,
-                title: "Strange",
-                complete: true,
-                createdDate: "12/07/19",
-                doneDate: "12/11/19"
-            },
-            {
-                id: 3233,
-                title: "Vick",
-                complete: false,
-                createdDate: "12/07/19",
-                doneDate: "12/11/19"
-            },
-        ]
+        this.todos = [];
     }
 
     createTodo (text) {
-        this.todos.push({
-            id: Date.now(),
-            title: text,
-            complete: false,
-            createdDate: "23/24/46",
-            doneDate: "23/24/46",
-        })
         this.emit("change"); 
     }
 
@@ -47,6 +18,13 @@ class TodoStore extends EventEmitter {
             return todo.id == id;
         })
         return td[0];
+    }
+
+    deleteTodo (id) {
+        let td = this.getToDo(id);
+        let i = this.todos.indexOf(td);
+        this.todos.splice(i, 1);
+        this.emit('change');
     }
 
     markAsDoneORUnDone (id) {
@@ -63,6 +41,7 @@ class TodoStore extends EventEmitter {
         return this.todos;
     }
 
+    
     handleActions (action) {
         switch (action.type) {
             case "CREATE_TODO":
@@ -71,6 +50,19 @@ class TodoStore extends EventEmitter {
 
             case "MARK":
                 this.markAsDoneORUnDone(action.id);
+                break;
+
+            case "DELETE_TODO":
+                this.deleteTodo(action.id);
+                break;
+
+            case "FETCH":
+                this.fetchTodos();
+                break;
+
+            case "RECEIVE_TODOS":
+                this.todos = action.todos;
+                this.emit('change');
                 break;
 
             default:

@@ -34,16 +34,21 @@ class TodoActions extends Component {
     }
 
     markDoneOrUndone (e) {
-        let id = e.target.id;
+        let id = e.target.parentElement.id;
         TodoActions_.markAsDoneOrUnDone(id);
+    }
+
+    deleteTODO (e) {
+        let todoID = e.target.parentElement.id;
+        TodoActions_.deleteTodo(todoID);
     }
 
     render() {
         const action = this.getDone(this.props.complete);
         return (
-            <div>
-                <span onClick={this.markDoneOrUndone.bind(this)} id={this.props.tdId} className="btn btn-link">mark as {action}</span> 
-                <span className="btn btn-link">edit</span>
+            <div id={this.props.tdId}>
+                <span onClick={this.markDoneOrUndone.bind(this)} className="btn btn-link">mark as {action}</span> 
+                <span onClick={this.deleteTODO.bind(this)} className="btn btn-link">delete</span>
             </div>
         )
     }
@@ -52,7 +57,7 @@ class TodoActions extends Component {
 class Todo extends Component {
     render() {
         return (
-            <div className="todo col-md-6">
+            <div className="todo">
                 <ToDoHeading todoName={this.props.title}/>
                 <div className="row">
                     <div className="col-sm-4">
